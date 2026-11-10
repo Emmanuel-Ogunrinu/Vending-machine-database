@@ -1,33 +1,54 @@
-# base.py
-#
-# This file defines the `Base` class, which serves as the foundation for all ORM models.
-# The `Base` class provides essential methods for interacting with the database, such as:
-#   - `save()`: Insert or update the current model instance in the database.
-#   - `_insert()`: Insert the current instance into the database (private method).
-#   - `_update()`: Update the current instance in the database (private method).
-#   - `get()`: Retrieve a record by its ID.
-#   - `delete()`: Delete a record by its ID.
-#   - `all()`: Retrieve all records of the model from the database.
-#   - `query()`: Query records based on filter conditions.
-#   - `create_schema()`: Generate the schema (sql code) for the model in the database.
-#   - `create()`: Uses the generated schema from the previous function to create a table in the database based on the model's schema.
-#   - `join()`: Join multiple models together for data retrieval.
-#   - `where()`: Add WHERE conditions to queries.
-#   - `having()`: Add HAVING conditions to queries.
-#   - `group_by()`: Add GROUP BY clauses to queries.
-#
-# Connection management is critical. Every method interacting with the database must:
-#   - Open a new connection and cursor at the start of the operation.
-#   - Close the cursor and connection after the operation is complete,
-#     whether the operation is successful or not, to avoid memory leaks.
-#   - Transactions must be committed on success, and rolled back on failure.
-#
-# Students should implement proper connection management in each method, including:
-#   - Using `try`, `except`, and `finally` to ensure the connection and cursor are always closed.
-#   - Handling potential exceptions during database operations and performing rollbacks if needed.
-#
-# The `Base` class is meant to be subclassed, and any model that extends `Base` will automatically
-# inherit the methods for database interaction.
+"""
+base.py
+
+Core ORM base model providing a standardized interface for database
+persistence, schema management, and query construction.
+
+The Base class serves as the foundation for all ORM models, encapsulating
+common database operations and promoting consistent data access patterns.
+
+Key Features
+------------
+Persistence Operations:
+    save()          Insert a new record or update an existing instance.
+    _insert()       Execute an INSERT operation for the current instance.
+    _update()       Execute an UPDATE operation for the current instance.
+    get()           Retrieve a record by its primary key.
+    delete()        Delete a record by its primary key.
+    all()           Retrieve all records associated with the model.
+    query()         Retrieve records matching specified filter criteria.
+
+Schema Management:
+    create_schema() Generate SQL schema definitions from model metadata.
+    create()        Create database tables using generated schema definitions.
+
+Query Construction:
+    join()          Construct queries involving multiple related models.
+    where()         Apply conditional filters to query results.
+    having()        Apply conditions to aggregated query results.
+    group_by()      Group records based on specified fields.
+
+Connection and Transaction Management
+-------------------------------------
+Database operations follow consistent resource management and transaction
+handling practices to maintain reliability and data integrity.
+
+    - Establish database connections and cursors for each operation.
+    - Release database resources regardless of operation outcome.
+    - Commit transactions following successful write operations.
+    - Roll back transactions when errors occur.
+    - Handle database exceptions without leaving open connections.
+    - Use structured exception handling to ensure reliable cleanup.
+
+Architecture
+------------
+Base is designed for inheritance. Model classes extending Base gain access
+to shared persistence, query, and schema-management functionality, reducing
+code duplication and supporting consistent database interaction patterns.
+
+This design separates common database operations from model-specific
+business logic, improving maintainability, extensibility, and testability.
+"""
 
 
 from .dbconnectors import MySQL
