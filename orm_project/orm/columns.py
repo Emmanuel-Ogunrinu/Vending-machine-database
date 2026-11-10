@@ -1,40 +1,64 @@
-# columns.py
-#
-# This file defines the `Column` class used in the ORM framework. Each instance of
-# the `Column` class represents a single column in a database table. The `Column` class
-# allows us to define the column's data type, constraints (e.g., primary key, nullable, etc.),
-# and foreign key relationships.
-#
-# The `Column` class is used by the ORM framework to map the attributes of Python classes
-# (like `User`, `Post`, etc.) to actual database tables. The ORM will automatically generate
-# the necessary SQL queries based on these column definitions.
-#
-# The `Column` class handles attributes such as:
-#   - `column_type`: The type of the column (e.g., INTEGER, TEXT).
-#   - `primary_key`: Whether the column is part of the primary key.
-#   - `nullable`: Whether the column can be null.
-#   - `unique`: Whether the column values must be unique.
-#   - `foreign_key`: The foreign key constraint that relates to another table.
-#
-# Students need to implement the following methods to complete the functionality of this class:
-#   - `get_sql()`: Generates the SQL representation of the column.
-#   - `validate_type()`: Validates that the column's type is supported.
-#   - `is_primary_key()`: Checks if the column is part of the primary key.
-#   - `to_dict()`: Returns the column's configuration as a dictionary.
-#   - `get_constraints()`: Generates a string of the column's constraints (e.g., "NOT NULL").
-#   - `is_foreign_key()`: Checks if the column is a foreign key.
-#
-# Example usage in the ORM base class:
-#
-#   class User:
-#       id = Column(Integer, primary_key=True)  # Primary key column of type Integer
-#       name = Column(String(255), nullable=False)  # String column, not nullable
-#       email = Column(String(100), unique=True)  # String column, with a unique constraint
-#       created_at = Column(Date)  # Date column
-#       profile_id = Column(Integer, foreign_key='Profile(id)')  # Foreign key referencing 'Profile' table
-#
-#   The ORM will use these `Column` instances to define the table schema and generate the
-#   corresponding SQL for table creation, validation, and foreign key enforcement.
+"""
+columns.py
+
+Column metadata and schema definition utilities for the ORM framework.
+
+The Column class defines the structure and constraints of individual
+database fields, providing the metadata required to map Python model
+attributes to relational database columns.
+
+Each Column instance describes a field's data type, validation rules,
+and relational constraints. This metadata supports SQL schema generation,
+data validation, and consistent model-to-database mapping.
+
+Key Features
+------------
+Column Configuration:
+    column_type     Defines the SQL data type associated with the field.
+    primary_key     Indicates whether the column is part of a primary key.
+    nullable        Specifies whether the column accepts NULL values.
+    unique          Enforces uniqueness constraints on column values.
+    foreign_key     Defines a relationship to a referenced table or column.
+
+Schema Generation and Validation:
+    get_sql()           Generate the SQL definition for the column.
+    validate_type()     Validate the column's supported data type.
+    is_primary_key()    Determine whether the column is a primary key.
+    to_dict()           Return column metadata as a dictionary.
+    get_constraints()   Generate SQL constraint definitions.
+    is_foreign_key()    Determine whether a foreign key relationship exists.
+
+ORM Integration
+---------------
+Column definitions serve as the mapping layer between Python model
+attributes and relational database fields.
+
+The ORM uses this metadata to construct table schemas, generate SQL
+statements, and apply database constraints consistently across models.
+
+Example
+-------
+class User:
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    email = Column(String(100), unique=True)
+    created_at = Column(Date)
+    profile_id = Column(Integer, foreign_key="Profile(id)")
+
+The ORM can interpret these definitions to construct the corresponding
+SQL table schema, including data types, primary keys, uniqueness
+constraints, nullability rules, and foreign key relationships.
+
+Design Considerations
+---------------------
+The Column abstraction centralizes database field configuration,
+reducing repetitive SQL definitions and improving consistency across
+the ORM framework.
+
+Separating column metadata from model persistence logic also supports
+maintainability, extensibility, and future enhancements to schema
+validation and query generation.
+"""
 
 
 class Column:
