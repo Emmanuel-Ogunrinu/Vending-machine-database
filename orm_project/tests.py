@@ -1,23 +1,70 @@
-# test.py
-#
-# This file is meant for testing the functionality of the models you define in models.py.
-# Use it as a sandbox to manually verify that your model classes and their methods work correctly.
-#
-# Suggested tests include:
-#   - Creating, updating, and deleting records
-#   - Querying and retrieving data
-#   - Retrieving data using filters such as having and where
-#   - Applying group_by and order_by for data retrieved
-#   - Testing relationships between models (e.g., foreign keys, joins)
-#   - OPTIONAL AND EXTRA CREDIT ONLY: test your migrations properly
-#
-# Guidelines:
-#   - Import your model classes from models.py
-#   - Use the database connector provided (e.g., from db.py) to connect to your test database
-#   - Clean up test data between runs if needed
-#
-# NOTE: This is not a formal unit test file. You are encouraged to add and run meaningful tests
-# here as you build your ORM functionality.
+"""
+test.py
+
+Integration testing and functional validation for the ORM framework.
+
+This module provides a dedicated environment for validating ORM model
+behavior, database operations, and query functionality.
+
+It supports manual integration testing of model definitions, persistence
+operations, relational queries, and database schema interactions.
+
+Test Coverage
+-------------
+CRUD Operations:
+    - Verify successful creation and insertion of model records.
+    - Validate updates to existing records.
+    - Confirm record retrieval using primary keys.
+    - Test record deletion and database state consistency.
+
+Query Operations:
+    - Validate filtered queries using WHERE conditions.
+    - Test HAVING clauses for aggregated query results.
+    - Verify GROUP BY and ORDER BY operations.
+    - Confirm query results match expected filter criteria.
+
+Relationships and Joins:
+    - Validate foreign key relationships between models.
+    - Test JOIN operations across related database tables.
+    - Verify consistency of relational query results.
+
+Schema and Migration Testing:
+    - Validate database table creation and schema definitions.
+    - Test schema modifications where migration functionality
+      is available.
+
+Test Environment
+----------------
+Model classes are imported from models.py and executed against a
+dedicated test database using the connection utilities in db.py.
+
+Test operations should remain isolated from production data to
+prevent unintended modifications.
+
+Test Data Management
+--------------------
+Tests should use controlled, repeatable datasets to support
+consistent validation across multiple executions.
+
+    - Initialize test records before executing relevant scenarios.
+    - Verify database state before and after write operations.
+    - Remove or reset test data between test runs.
+    - Validate both successful operations and expected failures.
+    - Ensure database connections and resources are released.
+
+Testing Approach
+----------------
+This module primarily supports manual functional and integration
+testing rather than an automated unit testing framework.
+
+It provides a centralized location for evaluating ORM behavior,
+identifying implementation issues, and confirming that database
+operations produce expected results.
+
+As the ORM evolves, these scenarios can be incorporated into an
+automated testing framework such as pytest or unittest to improve
+repeatability and regression coverage.
+"""
 
 from models.models import *
 
