@@ -1,32 +1,78 @@
-# datatypes.py
-#
-# This file defines the data types used in the ORM framework. Each class represents
-# a specific column type that can be used in the database schema. These types
-# are then used by the ORM's base class to define columns in database tables.
-#
-# The `Column` class in the ORM will reference these data types to configure the
-# column's behavior, such as validating values, determining the SQL representation,
-# and enforcing constraints.
-#
-# For example,
-#   - The `Integer` class represents an INTEGER column type in SQL.
-#   - The `String` class represents a TEXT column type with an optional length constraint.
-#   - The `Boolean` class represents a BOOLEAN column type.
-#
-# Students should implement the missing methods for each type (e.g., `get_sql`, `validate`)
-# to ensure proper integration with the ORM and the generation of valid SQL queries.
-#
-# Example usage in the ORM base class:
-#
-#   class User:
-#       id = Column(Integer, primary_key=True)   # An INTEGER primary key column
-#       name = Column(String(255), nullable=False)  # A TEXT column with a length of 255, not nullable
-#       is_active = Column(Boolean, default=True)  # A BOOLEAN column with a default value of True
-#       created_at = Column(Date)  # A DATE column
-#
-#   This would represent a "User" table with columns: "id", "name", "is_active", and "created_at".
-#   The ORM will use the data types (Integer, String, Boolean, Date) to validate values and generate
-#   SQL queries when interacting with the database.
+"""
+datatypes.py
+
+SQL data type definitions and validation utilities for the ORM framework.
+
+This module defines the data type abstractions used to represent database
+column types within the ORM. Each type encapsulates the metadata and
+behavior required to map Python values to their SQL equivalents.
+
+These abstractions integrate with the Column class to support consistent
+schema generation, value validation, and model-to-database mapping.
+
+Supported Data Types
+--------------------
+Integer
+    Represents an INTEGER column for storing whole numbers.
+
+String
+    Represents a text-based column with optional length constraints.
+
+Boolean
+    Represents a BOOLEAN column for storing logical values.
+
+Date
+    Represents a DATE column for storing calendar dates.
+
+Core Functionality
+------------------
+SQL Type Mapping:
+    get_sql()       Return the SQL representation of the data type.
+
+Value Validation:
+    validate()      Determine whether a value satisfies the data type's
+                    requirements and applicable constraints.
+
+ORM Integration
+---------------
+Data type instances provide column definitions with the information
+required to generate SQL schemas and validate model values.
+
+The Column class references these types to determine the appropriate
+SQL representation and ensure that values conform to the expected
+data types before database operations.
+
+Example
+-------
+class User:
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(Date)
+
+These definitions describe a User model with an integer primary key,
+a required string field, a Boolean field with a default value, and
+a date field.
+
+The ORM uses the associated type metadata to construct SQL column
+definitions and support validation during database interactions.
+
+Design Considerations
+---------------------
+Centralizing SQL data type definitions provides a consistent interface
+for column configuration and validation.
+
+This design promotes:
+
+    - Reusable data type definitions across ORM models.
+    - Consistent mapping between Python values and SQL column types.
+    - Separation of type validation from database persistence logic.
+    - Easier extension to additional SQL data types.
+    - Improved maintainability and schema consistency.
+
+The module establishes a foundation for extensible type handling
+without requiring model classes to manage SQL-specific details.
+"""
 
 class Integer:
     def __init__(self, type="INTEGER", length=None):
